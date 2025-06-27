@@ -1,9 +1,10 @@
-# Use official nginx image
-FROM nginx:stable-alpine
+FROM nginx:1.25-alpine
 
-# Copy custom nginx config
-COPY nginx.conf /etc/nginx/nginx.conf
-
-# Copy all website files into the nginx HTML directory
+# Copy website files
 COPY . /usr/share/nginx/html
 
+# Replace the default vhost so Nginx listens on Cloud Run’s port 8080
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 8080
+CMD ["nginx", "-g", "daemon off;"]
