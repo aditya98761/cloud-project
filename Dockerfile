@@ -1,14 +1,15 @@
-# Use the official Nginx image
 FROM nginx:alpine
 
-# Remove default Nginx website
+# Remove default site
 RUN rm -rf /usr/share/nginx/html/*
 
-# Copy your static site content to Nginx's web directory
+# Copy static website files
 COPY . /usr/share/nginx/html
 
-# Expose port 8080 for Cloud Run
+# Copy custom nginx config
+COPY nginx.conf /etc/nginx/nginx.conf
+
 EXPOSE 8080
 
-# Override default command to run Nginx in foreground
 CMD ["nginx", "-g", "daemon off;"]
+
